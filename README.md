@@ -1,5 +1,5 @@
-# pre-work
-Aprendizados da semana de Pré-Work da Brainn.Co
+# Pré Work
+## Aprendizados da semana de Pré-Work da Brainn.Co
 
 Desafio do dia 01
 
