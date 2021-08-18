@@ -8,6 +8,7 @@ const john = {
 const jane = {
   ...john,
   name: "Jane",
+  // hobbies: john.hobbies.concat("MuayThai", "Programming"),
   hobbies: [...john.hobbies, "MuayThai", "Programming"],
 };
 
