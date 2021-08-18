@@ -1,4 +1,6 @@
+// ex 03 resolvido implementação da função callback
 function calculadora (callback) {
+  return callback
 }
 
 const sum = calculadora((a, b) => a + b)
