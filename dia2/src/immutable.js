@@ -4,11 +4,11 @@ const john = {
   age: 30,
   hobbies: ['Surf', 'Design'],
 }
-
-const jane = john
+// ex 01
+const jane = {...john}
 
 jane.name = 'Jane'
-jane.hobbies.push('MuayThai', 'Programming')
+jane.hobbies = [...john.hobbies, 'MuayThai', 'Programming']
 
 console.log('John:', john)
 console.log('Jane:', jane)

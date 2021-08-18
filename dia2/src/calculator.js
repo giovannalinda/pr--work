@@ -1,4 +1,4 @@
-// ex 03 resolvido implementação da função callback
+// ex 02 resolvido implementação da função callback
 function calculadora (callback) {
   return callback
 }
