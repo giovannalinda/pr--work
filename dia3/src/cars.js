@@ -1,3 +1,4 @@
+// error 03
 const form = document.querySelector('[data-js="form-cars"]')
 const table = document.querySelector('[data-js="table"]')
 
