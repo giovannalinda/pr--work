@@ -47,15 +47,13 @@ select.addEventListener('change', (event) => {
   colorBox.innerHTML = ''
 
   Array.from(event.target.selectedOptions).forEach(option => {
-   // const div = document.createElement('div')
-   div.style.width = '100px';
-   div.style.height = '100px';
-   div.style.background = option.value;
+   const div = createDiv(option.value)
    colorBox.appendChild(div)
   });
 });
 
 function createDiv(value) {
+  // cria no html
   const div = document.createElement('div')
   div.style.width = '100px';
   div.style.height = '100px';
