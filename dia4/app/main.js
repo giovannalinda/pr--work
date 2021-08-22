@@ -1,4 +1,5 @@
 import './style.css'
+import { get, post } from './http'
 
 const url = 'http://localhost:3333/cars'
 const form = document.querySelector('[data-js="form-cars"]')
@@ -9,7 +10,7 @@ const getElements = (event) => (elementName) => {
   return event.target.elements[elementName]
 };
 
-form.addEventListener('submit', (event) => {
+form.addEventListener('submit', async (event) => {
   event.preventDefault()
   const getElement = getElements(event)
   const image = getElement('image')
@@ -25,6 +26,15 @@ form.addEventListener('submit', (event) => {
     plate: plate.value,
     color: color.value
   }
+
+  const result = await post(url, data)
+  if(result.error) {
+    console.log('Erro na hora de cadastrar', result.message)
+    return
+  }
+
+  const noContent = document.querySelector('[data-js="no-content"]')
+  table.removeChild(noContent)
 
   createRow(data)
 
@@ -58,15 +68,15 @@ function createRow(data) {
     const th = document.querySelectorAll('table th')
     td.setAttribute('colspan', th.length)
     td.textContent = 'Nenhum carro encontrado!'
+
+    tr.dataset.js = 'no-content'
     tr.appendChild(td)
     table.appendChild(tr)
   }
 
-async function main() {
+  async function main() {
   // pegar o erro
-  const result = await fetch(url)
-  .then(r => r.json())
-  .catch(error => ({ error: true, message: error.message}))
+  const result = await post(url, data)
 
   if(result.error) {
     console.log('Erro ao buscar carros', result.message)
@@ -78,10 +88,8 @@ async function main() {
     return
   }
   // sucesso
-  result.forEach(car => {
+  result.forEach(createRow)
   // funçao que cria uma linha na tabela para cada carro
-    createRow(car)
-  })
 }
 
 main()
