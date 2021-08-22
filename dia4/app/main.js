@@ -1,5 +1,5 @@
 import './style.css'
-import { get, post } from './http'
+import { get, post, del } from './http'
 
 const url = 'http://localhost:3333/cars'
 const form = document.querySelector('[data-js="form-cars"]')
@@ -34,7 +34,9 @@ form.addEventListener('submit', async (event) => {
   }
 
   const noContent = document.querySelector('[data-js="no-content"]')
-  table.removeChild(noContent)
+  if (noContent) {
+    table.removeChild(noContent)
+  }
 
   createRow(data)
 
@@ -43,8 +45,6 @@ form.addEventListener('submit', async (event) => {
 });
 
 function createRow(data) {
-  const tr = document.createElement('tr')
-
   const elements = [
     { type: 'image', value: data.image },
     { type: 'model', value: data.model },
@@ -53,14 +53,45 @@ function createRow(data) {
     { type: 'color', value: data.color }
   ]
 
+  const tr = document.createElement('tr')
+  tr.dataset.plate = data.plate
+
   elements.forEach(element => {
     const td = document.createElement('td')
     td.textContent = element.value
     tr.appendChild(td)
   })
 
+  const button = document.createElement('button')
+  button.textContent = 'Excluir'
+  button.dataset.plate = data.plate
+
+  button.addEventListener('click', handleDelete(data.plate))
+  tr.appendChild(button)
+
   table.appendChild(tr)
 }
+  async function handleDelete(event) {
+    const button = event.target
+    const plate = button.dataset.plate
+
+    const result = await del(url, { plate })
+
+    if(result.error) {
+      console.log('Erro ao deletar', result.message)
+      return
+    }
+
+    const tr = document.querySelector(`tr[data-plate="${plate}"]`)
+    table.removeChild(tr)
+    button.removeEventListener('click', handleDelete)
+
+    const allTrs = table.querySelector('tr')
+    if(!allTrs){
+      createRow()
+    }
+    console.log('tr:', allTrs)
+  }
 
   function createNoCar() {
     const tr = document.createElement('tr')
@@ -74,7 +105,7 @@ function createRow(data) {
     table.appendChild(tr)
   }
 
-  async function main() {
+  async function main(data) {
   // pegar o erro
   const result = await post(url, data)
 
