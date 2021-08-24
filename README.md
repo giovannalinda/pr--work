@@ -1,2 +1,2 @@
 # Pré Work
-## Aprendizados da semana de Pré-Work da Brainn.Co
+## Brainn.Co Pre-Work Week Learnings
